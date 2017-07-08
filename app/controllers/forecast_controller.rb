@@ -18,24 +18,24 @@ class ForecastController < ApplicationController
 
     require 'open-uri'
     
-    api4 = "https://api.darksky.net/forecast/3fead6d1fd0b0d74265dc83b9ad7d609/"
-    api5 = @lat
-    api6 = @lng
+    api1 = "https://api.darksky.net/forecast/3fead6d1fd0b0d74265dc83b9ad7d609/"
+    api2 = @lat
+    api3 = @lng
     
-    url2 = api4 + api5 + "," + api6
+    url = api1 + api2 + "," + api3
     
-    raw_data2 = open(url2).read
-    parsed_results = JSON.parse(raw_data2)
+    raw_data = open(url).read
+    parsed_data = JSON.parse(raw_data)
     
-    @current_temperature = "Replace this string with your answer."
+    @current_temperature = parsed_data.dig("currently", "temperature")
 
-    @current_summary = parsed_results["minutely"]["summary"]
+    @current_summary = parsed_data.dig("currently", "summary")
 
-    @summary_of_next_sixty_minutes = "Replace this string with your answer."
+    @summary_of_next_sixty_minutes = parsed_data.dig("minutely", "summary")
 
-    @summary_of_next_several_hours = "Replace this string with your answer."
+    @summary_of_next_several_hours = parsed_data.dig("hourly", "summary")
 
-    @summary_of_next_several_days = "Replace this string with your answer."
+    @summary_of_next_several_days = parsed_data.dig("daily", "summary")
 
     render("forecast/coords_to_weather.html.erb")
   end
