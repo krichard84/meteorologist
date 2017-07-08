@@ -31,12 +31,12 @@ class MeteorologistController < ApplicationController
     lng1 = parsed_data["results"][0]["geometry"]["location"]["lng"]
 
     api4 = "https://api.darksky.net/forecast/3fead6d1fd0b0d74265dc83b9ad7d609/"
-    api5 = lat1
-    api6 = lng1
+    api5 = lat1.round(4)
+    api6 = lng1.round(4)
     
-    url2 = api4 + api5 + "," + api6
+    link = api4.to_s + api5.to_s + "," + api6.to_s
     
-    raw_data2 = open(url2).read
+    raw_data2 = open(link).read
     parsed_data2 = JSON.parse(raw_data2)
 
     @current_temperature = parsed_data2.dig("currently", "temperature")
